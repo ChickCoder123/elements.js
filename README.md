@@ -1,8 +1,8 @@
 # elements.js
 Your library with essential elements stored in one file.
 
-#Documentation
+# Documentation
 Not finished yet.
 
-#Credits
+# Credits
 Please use this with credits.
