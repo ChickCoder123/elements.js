@@ -11,90 +11,148 @@
 function underEst (str) {
     if (typeof str === 'string') {
         if (str.length > 1) {
-            this.all = ''
+            // xxx - ski
+            // no need to attach to the function's scope. a variable works just fine.
+            let all = ''
             for (var i = 0; i < str.length; i++) {
                 if (Math.random() <= 0.5) {
-                    this.all += str[i]
+                    all += str[i]
                 }
             }
-            return this.all
+            return all
         }
-        return 'LenError: String\'s length is too low'
+        // xxx - ski
+        // returns an actual Error instead of a String
+        // fixed error message to be more accurate
+        return new Error("`str` needs to be longer than 1 character")
     }
-    return 'TypeError: Not a string'
+    // xxx - ski
+    // returns an actual Error instead of a String
+    return new TypeError("Not a string")
 }
 function overEst (str) {
     if (typeof str === 'string') {
         if (str.length > 1) {
-            this.all = ''
+            // xxx - ski
+            // no need to attach to the function's scope. a variable works just fine.
+            let all = ''
             for (var i = 0; i < str.length; i++) {
-                this.all += str[i]
+                all += str[i]
                 if (Math.random() <= 0.5) {
-                    this.all += str[i]
+                    all += str[i]
                 }
             }
-            return this.all
+            return all
         }
-        return 'LenError: String\'s length is too low'
+        // xxx - ski
+        // returns an actual Error instead of a String
+        return new Error("`str` needs to be longer than 1 character")
     }
-    return 'TypeError: Not a string'
+    // xxx - ski
+    // returns an actual Error instead of a String
+    return new TypeError("Not a string")
 }
 function randomInt (least, most) {
+    // xxx - ski
+    // removed as it conflicted with the modification of the `else` statement.
+    /*
     if (typeof least !== 'number' && typeof most !== 'number') {
-        return 'TypeError: One of arguments are not numbers'
+        return new TypeError("One of the arguments are not numbers")
     }
+    */
     if (arguments.length === 1) {
+        // xxx - ski
+        // added type-checking
+        if(typeof least !== "number"){
+            return new TypeError("`least` needs to be a number.")
+        }
         return Math.round(Math.random() * least)
     } else if (arguments.length === 2) {
-        return Math.round(Math.random() * (most - least) + most)
+        // xxx - ski
+        // added type-checking
+        if(typeof least !== "number" || typeof most !== "number"){
+            return new TypeError("`least` and `most` need to be a number.")
+        }
+        // xxx - ski
+        // should be `least`. 
+        // see: https://github.com/thelegendski/ski.js/blob/297230a8d724c8f9777eddd4124739de9feccb8a/main.js#L1077
+        return Math.round(Math.random() * (most - least) + least)
     } else {
-        return 'ArgError: Cannot get random from arguments'
+        // xxx - ski
+        // to properly follow `random`, no arguments usually means between 0 and 1; the function will still return a value either 0 or 1
+        // see: https://github.com/thelegendski/ski.js/blob/297230a8d724c8f9777eddd4124739de9feccb8a/main.js#L1079
+        /* return new Error("Cannot get random from arguments") */
+        return Math.round(Math.random())
     }
 }
 function randomFromArray (arr) {
-    if (typeof arr === 'object') {
+    // xxx - ski
+    // properly checked for `arr` to be an array
+    if (Array.isArray(arr)) {
         return arr[randomInt(arr.length - 1)]
     } else {
-        return 'TypeError: Argument is supposed to be array'
+        // xxx - ski
+        // returns an actual Error instead of a String
+        return new TypeError("Argument is supposed to be array")
     }
 }
 function randomFromObj (obj) {
     if (typeof obj === 'object') {
         try {
-            this.keys = Object.keys(obj)
-            if (this.keys.length === 0) {
-                return 'LenError: Object has too less items in it'
+            // xxx - ski
+            // a variable works better than referencing the function's scope here
+            let keys = Object.keys(obj)
+            if (keys.length === 0) {
+                // xxx - ski
+                // returns an actual Error instead of a String
+                return new Error("Object has too less items in it")
             }
             return obj[randomFromArray(this.keys)]
         } catch (e) {
-            return 'SysError: ' + e
+            // xxx - ski
+            // returns an actual Error instead of a String
+            return new Error(e)
         }
     }
-    return 'TypeError: Argument is supposed to be object'
+    // xxx - ski
+    // returns an actual Error instead of a String
+    return new TypeError("Argument is supposed to be object")
 }
 function delArr (arr) {
-    if (typeof arr === 'object') {
+    // xxx - ski
+    // properly checked for `arr` to be an array
+    if (Array.isArray(arr)) {
         arr.length = 0
         return arr
     }
-    return 'TypeError: Argument needs to be array'
+    // xxx - ski
+    // returns an actual Error instead of a String
+    return new TypeError("Argument needs to be array")
 }
 function removeItemFromArr (arr, id) {
-    if (typeof arr === 'object' && typeof id === 'number') {
+    // xxx - ski
+    // properly checked for `arr` to be an array
+    if (Array.isArray(arr) && typeof id === 'number') {
         if (arr.length <= 3) {
-            return 'LenError: Array\'s length needs to be at least three'
+            return new Error("Array's length needs to be at least three")
         }
         if (id > 0 && id < arr.length) {
-            this.temp = []
+            // xxx - ski
+            // no need to attach variable to function's scope. a variable works perfectly.
+            let temp = []
             for (var i = 0; i < id; i++) {
-                this.temp.push(arr[i])
+                temp.push(arr[i])
             }
             for (var i = id + 1; i < arr.length; i++) {
-                this.temp.push(arr[i])
+                temp.push(arr[i])
             }
-            return this.temp
+            return temp
         }
-        return 'ArgError: Id is not in scope of array'
+        // xxx - ski
+        // returns an actual Error instead of a String
+        return new Error("`id` is not in scope of array")
     }
-    return 'TypeError: Arr is supposed to be array or id needs to be number'
+    // xxx - ski
+    // returns an actual Error instead of a String
+    return new TypeError("`arr` is supposed to be array or `id` needs to be number")
 }
